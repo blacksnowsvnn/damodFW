@@ -4,11 +4,11 @@ Chào mừng bạn đến với tài liệu kỹ thuật của dự án **Damod*
 
 ## Mục lục
 
-1. [Hướng dẫn cài đặt (setup.md)](setup.md)
-2. [Kiến trúc hệ thống (architecture.md)](architecture.md)
-3. [Tài liệu API (api_endpoints.md)](api_endpoints.md)
-4. [Cấu trúc Cơ sở dữ liệu (database.md)](database.md)
-5. [Cấu hình biến môi trường (environment.md)](environment.md)
+1. [Hướng dẫn cài đặt (setup.md)](docs/setup.md)
+2. [Kiến trúc hệ thống (architecture.md)](docs/architecture.md)
+3. [Tài liệu API (api_endpoints.md)](docs/api_endpoints.md)
+4. [Cấu trúc Cơ sở dữ liệu (database.md)](docs/database.md)
+5. [Cấu hình biến môi trường (environment.md)](docs/environment.md)
 
 ## Tổng quan công nghệ
 
