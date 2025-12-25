@@ -1,6 +1,6 @@
-# Cấu trúc biến môi trường
+# Cấu trúc biến môi trường (damodFW)
 
-Dự án sử dụng file `.env` tại thư mục gốc để quản lý các cấu hình nhạy cảm và thay đổi theo môi trường.
+Dự án **damodFW** sử dụng file `.env` tại thư mục gốc để quản lý các cấu hình nhạy cảm và thay đổi theo môi trường.
 
 ## Danh sách các biến môi trường
 

@@ -1,6 +1,6 @@
-# Cấu trúc Cơ sở dữ liệu
+# Cấu trúc Cơ sở dữ liệu (damodFW)
 
-Tài liệu này mô tả cấu trúc các bảng trong cơ sở dữ liệu PostgreSQL của dự án Damod.
+Tài liệu này mô tả cấu trúc các bảng trong cơ sở dữ liệu PostgreSQL của dự án **damodFW**.
 
 ## 1. Tổng quan
 - **Hệ quản trị CSDL**: PostgreSQL

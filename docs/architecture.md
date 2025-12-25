@@ -1,6 +1,6 @@
-# Kiến trúc hệ thống và Cấu hình Nginx
+# Kiến trúc hệ thống và Cấu hình Nginx (damodFW)
 
-Tài liệu này giải thích cách các thành phần trong hệ thống tương tác với nhau và vai trò của Nginx.
+Tài liệu này giải thích cách các thành phần trong hệ thống **damodFW** tương tác với nhau và vai trò của Nginx.
 
 ## Sơ đồ luồng dữ liệu
 

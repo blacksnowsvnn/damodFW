@@ -1,16 +1,33 @@
 # Hướng dẫn cài đặt và chạy dự án
 
-Tài liệu này hướng dẫn cách thiết lập môi trường và chạy dự án Damod.
+Tài liệu này hướng dẫn cách thiết lập môi trường và chạy dự án **damodFW**.
 
 ## Yêu cầu hệ thống
 
 Trước khi bắt đầu, hãy đảm bảo máy tính của bạn đã cài đặt các công cụ sau:
 
+- **Git**: Để quản lý mã nguồn.
 - **Docker**: [Cài đặt Docker](https://docs.docker.com/get-docker/)
 - **Docker Compose**: Thường đi kèm với Docker Desktop.
 - **Tên miền ảo**: Cấu hình file `hosts` để nhận diện tên miền của bạn (ví dụ: `yourdomain.com`).
 
-## Cấu hình File Hosts
+## 1. Cấu hình Git & SSH (Dành cho nhà phát triển)
+
+Để làm việc với repository GitHub của dự án, bạn nên cấu hình SSH Key:
+
+### Cấu hình định danh
+```bash
+git config --global user.name "blacksnowsvnn"
+git config --global user.email "vnbacksnows@gmail.com"
+```
+
+### Kiểm tra kết nối SSH
+Nếu bạn đã thêm SSH Key vào GitHub, hãy kiểm tra bằng lệnh:
+```bash
+ssh -T git@github.com
+```
+
+## 2. Cấu hình File Hosts
 
 Để truy cập ứng dụng qua tên miền `http://yourdomain.com`, bạn cần thêm dòng sau vào file hosts của hệ thống:
 
@@ -22,26 +39,34 @@ Thêm dòng:
 127.0.0.1 yourdomain.com
 ```
 
-## Khởi chạy dự án
+## 3. Khởi chạy dự án bằng Docker
 
 Thực hiện các bước sau để khởi động toàn bộ hệ thống:
 
-1. **Chuẩn bị file môi trường**:
-   Đảm bảo file `.env` đã tồn tại ở thư mục gốc của dự án. Bạn có thể sao chép từ `.env.example`.
+1. **Clone dự án**:
+   ```bash
+   git clone git@github.com:blacksnowsvnn/damodFW.git
+   cd damodFW
+   ```
 
-2. **Khởi động bằng Docker Compose**:
-   Mở terminal tại thư mục gốc dự án và chạy lệnh:
+2. **Chuẩn bị file môi trường**:
+   Sao chép file mẫu và điều chỉnh các thông số cần thiết:
+   ```bash
+   cp .env.example .env
+   ```
+
+3. **Khởi động bằng Docker Compose**:
    ```bash
    docker compose up -d --build
    ```
 
-3. **Kiểm tra trạng thái**:
+4. **Kiểm tra trạng thái**:
    ```bash
    docker compose ps
    ```
-   Bạn sẽ thấy 5 container đang chạy: `fastapi_app`, `nextjs_app`, `nginx_proxy`, `postgres_db`, và `pgadmin_panel`.
+   Bạn sẽ thấy các container: `fastapi_app`, `nextjs_app`, `nginx_proxy`, `postgres_db`, và `pgadmin_panel` ở trạng thái `Running`.
 
-## Quản lý Thư viện (Dependencies)
+## 4. Quản lý Thư viện (Dependencies)
 
 Do dự án chạy trong môi trường Docker với cấu trúc Volume riêng cho `node_modules`, việc cài đặt thư viện mới cần tuân thủ quy trình sau:
 
