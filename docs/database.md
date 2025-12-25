@@ -1,27 +1,25 @@
 # Cấu trúc Cơ sở dữ liệu (damodFW)
 
+[← Quay lại mục lục](README.md)
+
 Tài liệu này mô tả cấu trúc các bảng trong cơ sở dữ liệu PostgreSQL của dự án **damodFW**.
 
 ## 1. Tổng quan
 - **Hệ quản trị CSDL**: PostgreSQL
-- **ORM**: SQLAlchemy (với SQLModel hoặc Declarative Base)
-- **Công cụ di cư (Migration)**: Alembic (dự kiến)
-
----
+- **ORM**: SQLAlchemy 2.0
+- **Công cụ di cư (Migration)**: Alembic
 
 ## 2. Danh sách các bảng
 
+### Mixin chung: `TimestampMixin`
+Tất cả các bảng nghiệp vụ đều kế thừa từ `TimestampMixin` để tự động quản lý thời gian:
+- `created_at`: Thời điểm tạo bản ghi (tự động).
+- `updated_at`: Thời điểm cập nhật bản ghi cuối cùng (tự động).
+
 ### Bảng `member` (Thành viên)
 Lưu trữ thông tin người dùng và phân quyền.
-
-| Cột | Kiểu dữ liệu | Mô tả |
-| :--- | :--- | :--- |
-| `id` | Integer | Khóa chính, tự động tăng. |
-| `email` | String | Email người dùng (Duy nhất, dùng để đăng nhập). |
-| `full_name` | String | Họ và tên đầy đủ. |
-| `hashed_password` | String | Mật khẩu đã được mã hóa (Bcrypt). |
-| `is_active` | Boolean | Trạng thái hoạt động (Mặc định: `true`). |
-| `rank` | Integer | Cấp bậc (0: Admin, 1-5: Member - số càng nhỏ quyền càng cao). |
+- Kế thừa: `Base`, `TimestampMixin`
+- Các cột cơ bản: `id`, `email`, `full_name`, `hashed_password`, `is_active`, `rank`.
   
 ---
 

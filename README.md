@@ -41,13 +41,16 @@ Dự án **Damod** là một framework ứng dụng full-stack hiện đại, đ
 
 ## 📚 Tài liệu hướng dẫn
 
-Các tài liệu chi tiết nằm trong thư mục `docs/`:
+Xem chi tiết tại **[Trung tâm tài liệu (docs/README.md)](docs/README.md)**.
 
+Các tài liệu chính bao gồm:
 - [Hướng dẫn cài đặt](docs/setup.md)
 - [Kiến trúc hệ thống](docs/architecture.md)
 - [Tài liệu API](docs/api_endpoints.md)
 - [Cấu trúc Cơ sở dữ liệu](docs/database.md)
 - [Cấu hình biến môi trường](docs/environment.md)
+- [Quy chuẩn phát triển](docs/development_guidelines.md)
+- [Bảo mật](docs/security.md)
 
 ## 📄 Giấy phép
 

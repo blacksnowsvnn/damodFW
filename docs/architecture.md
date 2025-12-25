@@ -1,5 +1,7 @@
 # Kiến trúc hệ thống và Cấu hình Nginx (damodFW)
 
+[← Quay lại mục lục](README.md)
+
 Tài liệu này giải thích cách các thành phần trong hệ thống **damodFW** tương tác với nhau và vai trò của Nginx.
 
 ## Sơ đồ luồng dữ liệu
@@ -38,7 +40,9 @@ Quản trị viên
 - Chạy bên trong container `fastapi_app`.
 - Lắng nghe tại cổng `8000`.
 - Sử dụng `root_path="/backend"` để đồng bộ với cấu hình reverse proxy của Nginx.
-- Kết nối với PostgreSQL qua `DATABASE_URL`.
+- **Xác thực và Validation**: Sử dụng **Pydantic v2** để validate dữ liệu đầu vào và đầu ra cho 100% API endpoints.
+- **Quản lý cấu hình**: Sử dụng `pydantic-settings` để quản lý tập trung các biến môi trường từ file `.env` và hỗ trợ load động.
+- Kết nối với PostgreSQL qua `DATABASE_URL` (được tự động xây dựng từ các biến thành phần).
 
 ### 3. Database (PostgreSQL)
 - Chạy bên trong container `postgres_db`.

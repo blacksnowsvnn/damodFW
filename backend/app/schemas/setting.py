@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, Field, EmailStr, ConfigDict
 
 # Shared properties
 class SettingBase(BaseModel):
@@ -18,9 +18,7 @@ class SettingUpdate(SettingBase):
 
 class SettingInDBBase(SettingBase):
     key: str
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # Additional properties to return via API
 class Setting(SettingInDBBase):

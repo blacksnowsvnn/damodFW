@@ -1,11 +1,14 @@
 # Tài liệu API Endpoints (damodFW)
 
+[← Quay lại mục lục](README.md)
+
 Tài liệu này mô tả chi tiết các điểm cuối (endpoints) hiện có trong hệ thống Backend FastAPI của **damodFW**.
 
 ## 1. Thông tin chung
 - **Base URL**: `http://yourdomain.com/backend/api/v1`
 - **Định dạng dữ liệu**: JSON
 - **Xác thực**: JWT (Bearer Token)
+- **Validation**: 100% các request body và response body đều được validate nghiêm ngặt bằng **Pydantic v2 schemas**. Dữ liệu không khớp với định dạng yêu cầu sẽ bị từ chối với mã lỗi `422 Unprocessable Entity`.
 
 ---
 

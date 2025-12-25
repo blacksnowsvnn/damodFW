@@ -6,6 +6,11 @@ python-dotenv
 passlib[bcrypt]
 bcrypt==3.2.0
 pydantic[email]
+pydantic-settings
 PyJWT
 python-multipart
 docker
+pytest
+pytest-asyncio
+httpx
+pytest-cov

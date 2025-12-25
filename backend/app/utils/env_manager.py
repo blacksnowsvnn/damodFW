@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
+from pydantic import validate_call
 
+@validate_call
 def set_env_value(key: str, value: str, env_path: str = ".env"):
     """
     Cập nhật hoặc thêm một biến môi trường vào file .env.
@@ -39,6 +41,7 @@ def set_env_value(key: str, value: str, env_path: str = ".env"):
     with open(full_path, "w") as f:
         f.writelines(lines)
 
+@validate_call
 def get_env_value(key: str, default: str = None, env_path: str = ".env"):
     """
     Lấy giá trị của một biến môi trường từ file .env.

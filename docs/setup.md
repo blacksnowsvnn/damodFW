@@ -1,5 +1,7 @@
 # Hướng dẫn cài đặt và chạy dự án
 
+[← Quay lại mục lục](README.md)
+
 Tài liệu này hướng dẫn cách thiết lập môi trường và chạy dự án **damodFW**.
 
 ## Yêu cầu hệ thống
@@ -88,7 +90,48 @@ Khi muốn thêm một package mới (ví dụ: `lucide-react`):
    docker exec nextjs_app npm install lucide-react
    ```
 
-### 2. Sử dụng shadcn/ui
+### 3. Cài đặt thư viện Backend
+Tương tự như Frontend, khi thêm thư viện Python mới:
+1. **Trên máy host**: Cập nhật file `requirements.txt` trong thư mục `backend`.
+2. **Rebuild Container**: Do Backend sử dụng `pip` cài đặt vào hệ thống, cách tốt nhất để đồng bộ là rebuild container:
+   ```bash
+   docker compose build backend
+   docker compose up -d
+   ```
+3. **Cài đặt nhanh (Hot install)**: Để thử nghiệm nhanh không cần restart:
+   ```bash
+   docker exec fastapi_app pip install [tên-gói]
+   ```
+
+### 4. Quản lý Cơ sở dữ liệu (Alembic)
+Dự án sử dụng Alembic để quản lý các thay đổi về cấu trúc Database:
+1. **Tạo Migration mới** (khi bạn thay đổi models):
+   ```bash
+   docker exec fastapi_app alembic revision --autogenerate -m "Mô tả thay đổi"
+   ```
+2. **Cập nhật Database**:
+   ```bash
+   docker exec fastapi_app alembic upgrade head
+   ```
+3. **Quay lại phiên bản trước**:
+   ```bash
+   docker exec fastapi_app alembic downgrade -1
+   ```
+
+### 5. Chạy Kiểm thử (Pytest)
+Dự án tích hợp Pytest để đảm bảo chất lượng mã nguồn:
+1. **Chạy tất cả các test**:
+   ```bash
+   docker exec fastapi_app pytest
+   ```
+2. **Chạy test với báo cáo độ bao phủ (Coverage)**:
+   Báo cáo sẽ tự động hiển thị sau khi chạy lệnh trên nhờ cấu hình trong `pytest.ini`.
+3. **Chạy một file test cụ thể**:
+   ```bash
+   docker exec fastapi_app pytest app/tests/api/test_auth.py
+   ```
+
+### 6. Sử dụng shadcn/ui
 Dự án đã tích hợp shadcn/ui. Để thêm component mới:
 ```bash
 docker exec -it nextjs_app npx shadcn@latest add [tên-component]

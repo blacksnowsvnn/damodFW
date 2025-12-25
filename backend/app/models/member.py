@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Boolean
-from app.db.base_class import Base
+from app.db.base_class import Base, TimestampMixin
 
-class Member(Base):
+class Member(Base, TimestampMixin):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, index=True, nullable=False)
     full_name = Column(String, index=True)

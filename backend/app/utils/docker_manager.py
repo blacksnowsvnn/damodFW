@@ -1,9 +1,11 @@
 import logging
 import re
 from typing import Any
+from pydantic import validate_call
 
 logger = logging.getLogger(__name__)
 
+@validate_call
 def sanitize_sql(sql: str) -> str:
     """
     Ẩn mật khẩu trong các câu lệnh SQL (ví dụ: CREATE USER ... WITH PASSWORD '...')
@@ -11,6 +13,7 @@ def sanitize_sql(sql: str) -> str:
     # Ẩn password trong câu lệnh SQL
     return re.sub(r"(PASSWORD\s+')[^']*(')", r"\1********\2", sql, flags=re.IGNORECASE)
 
+@validate_call
 def restart_container(container_name: str) -> bool:
     """
     Restart một container cụ thể bằng Docker SDK.
@@ -27,6 +30,7 @@ def restart_container(container_name: str) -> bool:
         logger.error(f"Failed to restart container '{container_name}': {str(e)}")
         return False
 
+@validate_call
 def update_pgadmin_user(email: str, password: str) -> bool:
     """
     Cập nhật hoặc tạo mới user trong pgAdmin bằng CLI của pgAdmin.

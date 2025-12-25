@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
+from pydantic import validate_call
 
+@validate_call
 def update_nginx_domain(domain: str, nginx_conf_path: str = "nginx/default.conf"):
     """
     Cập nhật server_name trong file cấu hình Nginx.
