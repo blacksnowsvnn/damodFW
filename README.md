@@ -1,31 +1,54 @@
-# Tài liệu Dự án Damod
+# Dự án Damod (damodFW)
 
-Chào mừng bạn đến với tài liệu kỹ thuật của dự án **Damod**. Dự án này là một ứng dụng full-stack sử dụng các công nghệ hiện đại, được đóng gói bằng Docker để dễ dàng triển khai và quản lý.
+Dự án **Damod** là một framework ứng dụng full-stack hiện đại, được thiết kế để triển khai nhanh chóng và bảo mật cao. Hệ thống sử dụng kiến trúc container hóa với Docker, giúp việc quản lý và mở rộng trở nên dễ dàng.
 
-## Mục lục
+## 🚀 Tính năng chính
 
-1. [Hướng dẫn cài đặt (setup.md)](docs/setup.md)
-2. [Kiến trúc hệ thống (architecture.md)](docs/architecture.md)
-3. [Tài liệu API (api_endpoints.md)](docs/api_endpoints.md)
-4. [Cấu trúc Cơ sở dữ liệu (database.md)](docs/database.md)
-5. [Cấu hình biến môi trường (environment.md)](docs/environment.md)
+- **Frontend**: Next.js 15 với Tailwind CSS và Shadcn/UI.
+- **Backend**: FastAPI (Python) hiệu năng cao, hỗ trợ JWT Auth.
+- **Cơ sở dữ liệu**: PostgreSQL với cơ chế tự động khởi tạo.
+- **Quản trị**: Tích hợp sẵn pgAdmin, tự động cấu hình server kết nối.
+- **Proxy**: Nginx làm Reverse Proxy, hỗ trợ SSL và quản lý domain linh hoạt.
+- **Bảo mật**: Tự động lọc thông tin nhạy cảm trong logs, mã hóa mật khẩu Bcrypt.
 
-## Tổng quan công nghệ
+## 🛠️ Yêu cầu hệ thống
 
-Dự án bao gồm 3 thành phần chính:
+- Docker & Docker Compose
+- Node.js (để phát triển frontend)
+- Python 3.10+ (để phát triển backend)
 
-- **Frontend**: Ứng dụng Next.js (React) chạy tại cổng `3000`.
-- **Backend**: API FastAPI (Python) chạy tại cổng `8000`.
-- **Proxy**: Nginx đóng vai trò là reverse proxy, điều hướng traffic và quản lý tên miền của dự án.
+## 🏁 Bắt đầu nhanh
 
-## Cấu trúc thư mục chính
+1. **Clone repository**:
+   ```bash
+   git clone [url-cua-ban]
+   cd [ten-thu-muc]
+   ```
 
-```text
-.
-├── backend/            # Mã nguồn FastAPI
-├── frontend/           # Mã nguồn Next.js
-├── nginx/              # Cấu hình Nginx
-├── docs/               # Tài liệu dự án
-├── docker-compose.yml  # File điều phối container
-└── .env                # Biến môi trường
-```
+2. **Cấu hình môi trường**:
+   ```bash
+   cp .env.example .env
+   # Chỉnh sửa các giá trị trong .env nếu cần
+   ```
+
+3. **Khởi chạy bằng Docker**:
+   ```bash
+   docker-compose up -d --build
+   ```
+
+4. **Cài đặt hệ thống**:
+   Truy cập `http://localhost/install` để cấu hình cơ sở dữ liệu và tài khoản quản trị lần đầu.
+
+## 📚 Tài liệu hướng dẫn
+
+Các tài liệu chi tiết nằm trong thư mục `docs/`:
+
+- [Hướng dẫn cài đặt](docs/setup.md)
+- [Kiến trúc hệ thống](docs/architecture.md)
+- [Tài liệu API](docs/api_endpoints.md)
+- [Cấu trúc Cơ sở dữ liệu](docs/database.md)
+- [Cấu hình biến môi trường](docs/environment.md)
+
+## 📄 Giấy phép
+
+Dự án được phát triển cho mục đích nội bộ.

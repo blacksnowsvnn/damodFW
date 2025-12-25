@@ -49,6 +49,7 @@ Quản trị viên
 - Chạy bên trong container `pgadmin_panel`.
 - Phục vụ giao diện web tại cổng `5050`.
 - Cho phép quản lý trực quan cơ sở dữ liệu PostgreSQL.
+- **Cơ chế tự động**: Được cấu hình tự động sau khi cài đặt, bao gồm cả việc đăng ký server và đồng bộ tài khoản người dùng.
 
 ### 5. Nginx (Reverse Proxy)
 - Chạy bên trong container `nginx_proxy`.
@@ -56,6 +57,7 @@ Quản trị viên
 - **Vai trò**:
     - Điều hướng traffic dựa trên đường dẫn (Path-based routing).
     - Giải quyết vấn đề CORS bằng cách phục vụ cả Frontend và Backend trên cùng một domain (ví dụ: `yourdomain.com`).
+    - **Reload động**: Được tự động cập nhật domain và reload thông qua Backend sau khi cài đặt.
 
 ## Cấu hình Nginx chi tiết
 
@@ -100,6 +102,10 @@ Hệ thống sử dụng **JWT (JSON Web Token)** để xác thực người dù
 - Frontend xóa token khỏi bộ nhớ trình duyệt.
 - Backend nhận yêu cầu đăng xuất và đưa `jti` của token đó vào **Token Blacklist** trong cơ sở dữ liệu.
 - Mọi yêu cầu tiếp theo sử dụng token đã bị blacklist sẽ bị Backend từ chối (trả về lỗi 401), ngay cả khi token đó chưa hết hạn về mặt thời gian (`exp`).
+
+### 3. Bảo mật Logs và Dữ liệu nhạy cảm
+- **Sanitized Logs**: Hệ thống tự động ẩn mật khẩu và các thông tin nhạy cảm khác trong nhật ký server (logs) thông qua các cơ chế lọc chuỗi và SQL sanitization.
+- **An toàn API**: Các thông báo lỗi chi tiết của hệ thống (như lỗi kết nối DB) được lọc bỏ trước khi trả về cho client, tránh lộ thông tin hạ tầng.
 
 ## Cơ chế đặc biệt và Khởi động lạnh (Cold Start)
 

@@ -12,15 +12,15 @@ Dưới đây là các biến hiện đang được sử dụng trong hệ thố
 
 ### 2. Backend (FastAPI & PostgreSQL)
 - **`POSTGRES_USER`**: Tên người dùng của cơ sở dữ liệu PostgreSQL.
-- **`POSTGRES_PASSWORD`**: Mật khẩu của cơ sở dữ liệu.
+- **`POSTGRES_PASSWORD`**: Mật khẩu của cơ sở dữ liệu (Mặc định: `changeme`).
 - **`POSTGRES_DB`**: Tên cơ sở dữ liệu.
 - **`POSTGRES_HOST`**: Host của database (trong Docker là `db`).
 - **`POSTGRES_PORT`**: Cổng kết nối (mặc định là `5432`).
-- **`DATABASE_URL`**: Đường dẫn kết nối đầy đủ (ví dụ: `postgresql://user:pass@db:5432/dbname`).
+- **`DATABASE_URL`**: Đường dẫn kết nối đầy đủ (ví dụ: `postgresql://<POSTGRES_USER>:<POSTGRES_PASSWORD>@db:5432/<POSTGRES_DB>`).
 
 ### 3. pgAdmin (Database Management)
 - **`PGADMIN_DEFAULT_EMAIL`**: Email dùng để đăng nhập vào pgAdmin.
-- **`PGADMIN_DEFAULT_PASSWORD`**: Mật khẩu đăng nhập vào pgAdmin.
+- **`PGADMIN_DEFAULT_PASSWORD`**: Mật khẩu đăng nhập vào pgAdmin (Mặc định: `changeme`).
 
 ### 4. Frontend (Next.js)
 - **`NEXT_PUBLIC_API_URL`**: URL của Backend API mà Frontend sẽ gọi từ trình duyệt. Lưu ý tiền tố `NEXT_PUBLIC_` là bắt buộc để Next.js cho phép truy cập biến này ở phía client.

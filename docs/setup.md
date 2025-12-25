@@ -17,8 +17,8 @@ Trước khi bắt đầu, hãy đảm bảo máy tính của bạn đã cài đ
 
 ### Cấu hình định danh
 ```bash
-git config --global user.name "blacksnowsvnn"
-git config --global user.email "vnbacksnows@gmail.com"
+git config --global user.name "Your Name"
+git config --global user.email "your-email@example.com"
 ```
 
 ### Kiểm tra kết nối SSH
@@ -45,7 +45,7 @@ Thực hiện các bước sau để khởi động toàn bộ hệ thống:
 
 1. **Clone dự án**:
    ```bash
-   git clone git@github.com:blacksnowsvnn/damodFW.git
+   git clone git@github.com:<YOUR_GITHUB_USERNAME>/damodFW.git
    cd damodFW
    ```
 
@@ -66,14 +66,15 @@ Thực hiện các bước sau để khởi động toàn bộ hệ thống:
 Sau khi các container đã sẵn sàng, bạn truy cập vào địa chỉ IP máy chủ hoặc `http://localhost` (nếu chạy local). Hệ thống sẽ tự động nhận diện chưa được cài đặt và chuyển hướng bạn đến trang **Install Wizard**.
 
 ### Các bước trong Install Wizard:
-1. **Cấu hình Database**: Nhập thông tin kết nối PostgreSQL. Bạn có thể sử dụng các giá trị mặc định của Docker hoặc cấu hình DB riêng. Có nút **Kiểm tra kết nối** để đảm bảo thông tin chính xác.
-2. **Cấu hình Hệ thống**: Thiết lập tên ứng dụng và tên miền (Domain).
-3. **Tài khoản Quản trị**: Tạo tài khoản Admin đầu tiên cho hệ thống.
+1. **Cấu hình Database**: Nhập thông tin kết nối PostgreSQL. Bạn có thể sử dụng các giá trị mặc định của Docker hoặc cấu hình DB riêng. Có nút **Kiểm tra kết nối** để đảm bảo thông tin chính xác. Hệ thống sẽ tự động tạo Database và User nếu bạn chọn "Tạo mới".
+2. **Cấu hình Hệ thống**: Thiết lập tên ứng dụng và tên miền (Domain). Tên ứng dụng sẽ được dùng để đặt tên cho các server trong pgAdmin.
+3. **Tài khoản Quản trị**: Tạo tài khoản Admin đầu tiên cho hệ thống. Thông tin này cũng sẽ được tự động dùng để cấu hình tài khoản truy cập pgAdmin.
 
 **Lưu ý quan trọng**: 
-- Trong quá trình cài đặt, hệ thống sẽ thực hiện **Reset Database** (xóa sạch bảng cũ nếu có) để đảm bảo môi trường sạch.
-- Sau khi cài đặt xong, hệ thống sẽ tự động tạo file `.env` trên host thông qua Docker volume mount.
-- Backend có cơ chế **Dynamic Config**, sẽ tự động nhận diện các thay đổi trong file `.env` mà không cần restart container.
+- Trong quá trình cài đặt, nếu chọn **Xóa dữ liệu cũ**, hệ thống sẽ thực hiện reset database để đảm bảo môi trường sạch.
+- Sau khi cài đặt xong, hệ thống sẽ tự động đăng ký các server kết nối (App DB và Root Access) vào pgAdmin với mật khẩu đã lưu sẵn.
+- Mật khẩu mặc định trong Docker hiện là `changeme` để đảm bảo an toàn.
+- Hệ thống có cơ chế bảo mật logs, các thông tin nhạy cảm như mật khẩu sẽ được ẩn đi trong nhật ký server.
 
 ## 5. Quản lý Thư viện (Dependencies)
 

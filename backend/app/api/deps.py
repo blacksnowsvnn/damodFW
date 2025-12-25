@@ -15,11 +15,33 @@ reusable_oauth2 = OAuth2PasswordBearer(
 )
 
 def get_db() -> Generator:
+    db = None
+    engine = None
     try:
-        db = SessionLocal()
+        # Tạo engine mới mỗi lần để đảm bảo luôn lấy cấu hình mới nhất từ .env
+        from sqlalchemy import create_engine, text
+        from sqlalchemy.orm import sessionmaker
+        
+        engine = create_engine(settings.DATABASE_URL)
+        DynamicSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+        
+        db = DynamicSessionLocal()
+        # Thử thực hiện một truy vấn nhỏ để kiểm tra kết nối
+        db.execute(text("SELECT 1"))
         yield db
+    except Exception as e:
+        from fastapi import HTTPException
+        # Nếu đang trong quá trình install, có thể DB chưa sẵn sàng
+        # Trả về 503 Service Unavailable thay vì 500 Internal Server Error
+        raise HTTPException(
+            status_code=503,
+            detail=f"Database connection failed: {str(e)}"
+        )
     finally:
-        db.close()
+        if db:
+            db.close()
+        if engine:
+            engine.dispose()
 
 def get_current_user(
     db: Session = Depends(get_db), token: str = Depends(reusable_oauth2)

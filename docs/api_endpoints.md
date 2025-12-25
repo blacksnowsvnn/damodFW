@@ -106,21 +106,24 @@ Dùng để khởi tạo hệ thống khi lần đầu triển khai.
     - `db_user`: Tên người dùng database
     - `db_password`: Mật khẩu database
     - `db_name`: Tên database
-- **Trả về**: Thông báo thành công hoặc lỗi chi tiết.
+- **Trả về**: Thông báo thành công hoặc lỗi chung (thông tin nhạy cảm đã được ẩn).
 
 ### Thực hiện cài đặt hệ thống
 - **Endpoint**: `POST /install/setup`
-- **Mô tả**: Khởi tạo hệ thống bao gồm: Cập nhật file `.env`, cấu hình Nginx, reset và tạo bảng database, tạo tài khoản Admin đầu tiên.
+- **Mô tả**: Khởi tạo hệ thống bao gồm: Cập nhật file `.env`, cấu hình Nginx, reset và tạo bảng database, tạo tài khoản Admin đầu tiên, tự động cấu hình server trong pgAdmin.
 - **Body (JSON)**:
-    - `db_config`: Đối tượng chứa thông tin kết nối database (giống `test-db`)
+    - `db_config`: Đối tượng chứa thông tin kết nối database
     - `domain_config`:
-        - `app_name`: Tên ứng dụng
-        - `domain`: Tên miền (ví dụ: `damod.loc`)
+        - `app_name`: Tên ứng dụng (dùng làm tên server trong pgAdmin)
+        - `domain`: Tên miền
+    - `pgadmin_config`:
+        - `pgadmin_email`: Email pgAdmin
+        - `pgadmin_password`: Mật khẩu pgAdmin
     - `admin_email`: Email Admin
     - `admin_password`: Mật khẩu Admin
     - `admin_full_name`: Họ tên Admin
 - **Trả về**: Thông báo thành công.
-- **Lưu ý**: Endpoint này sẽ thực hiện `drop_all` và `create_all` trên database để đảm bảo môi trường sạch.
+- **Lưu ý**: Các lỗi chi tiết được ghi vào logs server, API chỉ trả về thông báo lỗi chung để đảm bảo bảo mật.
 
 ---
 

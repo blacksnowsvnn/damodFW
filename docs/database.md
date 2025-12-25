@@ -50,6 +50,17 @@ Lưu trữ các cấu hình linh hoạt của website dưới dạng Key-Value.
 | `updated_at` | DateTime | Thời điểm cập nhật cuối cùng. |
 
 ---
+
+## 3. Quản lý Database (pgAdmin)
+Hệ thống tự động tích hợp pgAdmin để quản trị cơ sở dữ liệu:
+- **Tự động đăng ký Server**: Sau khi cài đặt, hệ thống tự động đăng ký 2 kết nối vào pgAdmin:
+    - **App DB**: Kết nối bằng tài khoản người dùng của ứng dụng (quyền hạn chế).
+    - **Root Access**: Kết nối bằng tài khoản `postgres` (quyền quản trị cao nhất).
+- **Đồng bộ tài khoản**: Tài khoản đăng nhập pgAdmin được đồng bộ với tài khoản Admin được tạo trong quá trình cài đặt.
+
+---
+
+## 4. Quy tắc thiết kế
 - **Tên bảng**: Sử dụng danh từ số ít, viết thường (ví dụ: `member`, `post`).
 - **Khóa chính**: Luôn luôn có cột `id` kiểu Integer hoặc UUID.
 - **Thời gian**: Nên bổ sung các cột `created_at` và `updated_at` cho các bảng nghiệp vụ trong tương lai.
