@@ -27,31 +27,12 @@ Dưới đây là các biến hiện đang được sử dụng trong hệ thố
     - Giá trị mặc định: `http://yourdomain.com/backend`
 - **`NEXT_PUBLIC_APP_NAME`**: Tên ứng dụng hiển thị trên giao diện người dùng.
 
-## Quản lý theo môi trường
+## Quản lý cấu hình động (Dynamic Configuration)
 
-Hệ thống hỗ trợ triển khai trên nhiều môi trường khác nhau. Bạn nên tạo các file `.env` tương ứng:
+Dự án sử dụng cơ chế nạp biến môi trường động để tối ưu hóa trải nghiệm người dùng và nhà phát triển:
 
-1. **Local Development (`.env.local`)**: Dùng cho phát triển cục bộ.
-2. **Staging (`.env.staging`)**: Môi trường kiểm thử giống production.
-3. **Production (`.env.production`)**: Môi trường thực tế.
-
-### Cách sử dụng
-
-- Trong Docker Compose, bạn có thể chỉ định file env bằng flag `--env-file`:
-  ```bash
-  docker compose --env-file .env.production up -d
-  ```
-- Hoặc sao chép file tương ứng thành `.env` trước khi chạy:
-  ```bash
-  cp .env.production .env
-  docker compose up -d
-  ```
-
-## Bảo mật
-
-- **KHÔNG** bao giờ cam kết (commit) file `.env` thực tế hoặc bất kỳ file `.env.*` nào chứa dữ liệu thật lên hệ thống quản lý phiên bản (Git).
-- Sử dụng file `.env.example` để làm mẫu cho các thành viên khác.
-- Đối với Production, khuyến khích sử dụng các dịch vụ quản lý bí mật như AWS Secrets Manager, HashiCorp Vault hoặc tính năng Secrets của CI/CD (GitHub Actions, GitLab CI).
+1. **Nạp lại .env không cần Restart**: Backend (FastAPI) sẽ tự động kiểm tra và nạp lại file `.env` mỗi khi có yêu cầu truy cập vào các biến cấu hình quan trọng (như `DATABASE_URL`, `DOMAIN`, `SECRET_KEY`).
+2. **Cấu hình Nginx**: Domain được cấu hình trong Install Wizard sẽ tự động cập nhật vào file `nginx/default.conf` và reload service Nginx trong container.
 
 ---
 
@@ -59,5 +40,6 @@ Hệ thống hỗ trợ triển khai trên nhiều môi trường khác nhau. B�
 
 Ngoài file `.env`, một số cấu hình động hiện được lưu trữ trong bảng `settings` của database để có thể thay đổi trực tiếp qua giao diện (sau khi được cài đặt):
 
-- **`site_title`**: Tên hiển thị của website (thay thế cho `APP_NAME` trong một số trường hợp).
+- **`site_title`**: Tên hiển thị của website.
 - **`system_installed`**: Đánh dấu hệ thống đã được cài đặt thành công (`true/false`).
+- **`domain`**: Tên miền chính được sử dụng cho hệ thống.

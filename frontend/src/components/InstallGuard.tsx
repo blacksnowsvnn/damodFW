@@ -10,24 +10,28 @@ export default function InstallGuard({ children }: { children: React.ReactNode }
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    // Không kiểm tra nếu đang ở trang install
-    if (pathname === '/install') {
-      setChecking(false);
-      return;
-    }
-
     const checkInstall = async () => {
       try {
         const data = await apiRequest('/install/check');
         if (data.msg === 'not_installed') {
-          router.push('/install');
+          if (pathname !== '/install') {
+            router.push('/install');
+          }
         } else {
+          // Nếu đã cài đặt mà cố truy cập /install thì đá về trang chủ
+          if (pathname === '/install') {
+            router.push('/');
+          }
           setChecking(false);
         }
       } catch (err) {
         console.error('Lỗi kiểm tra cài đặt:', err);
-        // Nếu lỗi (ví dụ backend chưa sẵn sàng), vẫn cho qua để tránh loop hoặc kẹt
-        setChecking(false);
+        // Nếu lỗi (ví dụ backend chưa sẵn sàng), mặc định coi là chưa cài đặt và đẩy về /install
+        if (pathname !== '/install') {
+          router.push('/install');
+        } else {
+          setChecking(false);
+        }
       }
     };
 

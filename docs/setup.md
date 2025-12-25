@@ -49,24 +49,33 @@ Thực hiện các bước sau để khởi động toàn bộ hệ thống:
    cd damodFW
    ```
 
-2. **Chuẩn bị file môi trường**:
-   Sao chép file mẫu và điều chỉnh các thông số cần thiết:
-   ```bash
-   cp .env.example .env
-   ```
-
-3. **Khởi động bằng Docker Compose**:
+2. **Khởi động bằng Docker Compose**:
+   Dự án được thiết kế để có thể khởi chạy ngay cả khi chưa có file `.env`. Các giá trị mặc định sẽ được sử dụng cho quá trình cài đặt ban đầu.
    ```bash
    docker compose up -d --build
    ```
 
-4. **Kiểm tra trạng thái**:
+3. **Kiểm tra trạng thái**:
    ```bash
    docker compose ps
    ```
    Bạn sẽ thấy các container: `fastapi_app`, `nextjs_app`, `nginx_proxy`, `postgres_db`, và `pgadmin_panel` ở trạng thái `Running`.
 
-## 4. Quản lý Thư viện (Dependencies)
+## 4. Cài đặt hệ thống (Install Wizard)
+
+Sau khi các container đã sẵn sàng, bạn truy cập vào địa chỉ IP máy chủ hoặc `http://localhost` (nếu chạy local). Hệ thống sẽ tự động nhận diện chưa được cài đặt và chuyển hướng bạn đến trang **Install Wizard**.
+
+### Các bước trong Install Wizard:
+1. **Cấu hình Database**: Nhập thông tin kết nối PostgreSQL. Bạn có thể sử dụng các giá trị mặc định của Docker hoặc cấu hình DB riêng. Có nút **Kiểm tra kết nối** để đảm bảo thông tin chính xác.
+2. **Cấu hình Hệ thống**: Thiết lập tên ứng dụng và tên miền (Domain).
+3. **Tài khoản Quản trị**: Tạo tài khoản Admin đầu tiên cho hệ thống.
+
+**Lưu ý quan trọng**: 
+- Trong quá trình cài đặt, hệ thống sẽ thực hiện **Reset Database** (xóa sạch bảng cũ nếu có) để đảm bảo môi trường sạch.
+- Sau khi cài đặt xong, hệ thống sẽ tự động tạo file `.env` trên host thông qua Docker volume mount.
+- Backend có cơ chế **Dynamic Config**, sẽ tự động nhận diện các thay đổi trong file `.env` mà không cần restart container.
+
+## 5. Quản lý Thư viện (Dependencies)
 
 Do dự án chạy trong môi trường Docker với cấu trúc Volume riêng cho `node_modules`, việc cài đặt thư viện mới cần tuân thủ quy trình sau:
 
@@ -87,16 +96,13 @@ docker exec -it nextjs_app npx shadcn@latest add [tên-component]
 
 ## Truy cập ứng dụng
 
-Sau khi các container đã sẵn sàng, bạn cần thực hiện bước cài đặt ban đầu:
+Sau khi cài đặt thành công:
 
-1. **Cài đặt hệ thống**:
-   Truy cập `http://yourdomain.com/install` để thiết lập tài khoản Admin và cấu hình cơ bản. Hệ thống sẽ tự động chuyển hướng bạn đến đây nếu chưa được cài đặt.
-
-2. **Sử dụng ứng dụng**:
-   - **Frontend**: `http://yourdomain.com/`
+1. **Sử dụng ứng dụng**:
+   - **Frontend**: `http://yourdomain.com/` (hoặc localhost)
    - **Backend API**: `http://yourdomain.com/backend/`
    - **API Documentation (Swagger)**: `http://yourdomain.com/backend/docs`
-   - **pgAdmin (Quản lý DB)**: `http://localhost:5050`
+   - **pgAdmin (Quản lý DB)**: `http://localhost:5050` (Email/Pass mặc định trong `.env` hoặc `admin@admin.com`/`admin`)
 
 ## Dừng dự án
 

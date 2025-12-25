@@ -55,6 +55,14 @@ export async function apiRequest(endpoint: string, options: RequestInit = {}) {
       }
     }
     
+    // Nếu gặp lỗi xác thực hoặc không tìm thấy user (có thể do DB reset), xóa token
+    if (response.status === 401 || (response.status === 404 && errorMessage === 'User not found')) {
+      removeToken();
+      if (typeof window !== 'undefined' && !window.location.pathname.includes('/login') && !window.location.pathname.includes('/install')) {
+        window.location.href = '/login';
+      }
+    }
+    
     throw new Error(errorMessage);
   }
 
@@ -64,6 +72,7 @@ export async function apiRequest(endpoint: string, options: RequestInit = {}) {
 export function setToken(token: string) {
   if (typeof window !== 'undefined') {
     localStorage.setItem('access_token', token);
+    window.dispatchEvent(new Event('storage'));
   }
 }
 
@@ -77,5 +86,6 @@ export function getToken() {
 export function removeToken() {
   if (typeof window !== 'undefined') {
     localStorage.removeItem('access_token');
+    window.dispatchEvent(new Event('storage'));
   }
 }

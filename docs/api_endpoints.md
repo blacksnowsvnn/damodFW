@@ -94,18 +94,33 @@ Dùng để khởi tạo hệ thống khi lần đầu triển khai.
 
 ### Kiểm tra trạng thái cài đặt
 - **Endpoint**: `GET /install/check`
-- **Mô tả**: Kiểm tra xem hệ thống đã có tài khoản Admin và được đánh dấu cài đặt thành công chưa.
+- **Mô tả**: Kiểm tra xem hệ thống đã được cài đặt chưa (kiểm tra sự tồn tại của file `.env`).
 - **Trả về**: `{"msg": "installed"}` hoặc `{"msg": "not_installed"}`.
 
-### Thực hiện cài đặt
-- **Endpoint**: `POST /install/setup`
-- **Mô tả**: Tạo tài khoản Admin đầu tiên và các cấu hình cơ bản (`site_title`).
+### Kiểm tra kết nối Database
+- **Endpoint**: `POST /install/test-db`
+- **Mô tả**: Kiểm tra kết nối tới PostgreSQL với thông tin cung cấp trước khi tiến hành cài đặt chính thức.
 - **Body (JSON)**:
+    - `db_host`: Host của database (ví dụ: `db` hoặc `localhost`)
+    - `db_port`: Port (mặc định `5432`)
+    - `db_user`: Tên người dùng database
+    - `db_password`: Mật khẩu database
+    - `db_name`: Tên database
+- **Trả về**: Thông báo thành công hoặc lỗi chi tiết.
+
+### Thực hiện cài đặt hệ thống
+- **Endpoint**: `POST /install/setup`
+- **Mô tả**: Khởi tạo hệ thống bao gồm: Cập nhật file `.env`, cấu hình Nginx, reset và tạo bảng database, tạo tài khoản Admin đầu tiên.
+- **Body (JSON)**:
+    - `db_config`: Đối tượng chứa thông tin kết nối database (giống `test-db`)
+    - `domain_config`:
+        - `app_name`: Tên ứng dụng
+        - `domain`: Tên miền (ví dụ: `damod.loc`)
     - `admin_email`: Email Admin
     - `admin_password`: Mật khẩu Admin
     - `admin_full_name`: Họ tên Admin
-    - `site_title`: Tên Website
 - **Trả về**: Thông báo thành công.
+- **Lưu ý**: Endpoint này sẽ thực hiện `drop_all` và `create_all` trên database để đảm bảo môi trường sạch.
 
 ---
 

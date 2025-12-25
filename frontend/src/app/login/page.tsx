@@ -33,7 +33,9 @@ export default function LoginPage() {
 
       if (data.access_token) {
         setToken(data.access_token);
-        router.push('/'); // Chuyển hướng về trang chủ sau khi đăng nhập thành công
+        // Đảm bảo router refresh để các component nhận trạng thái mới
+        router.push('/'); 
+        router.refresh();
       }
     } catch (err: any) {
       setError(err.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');

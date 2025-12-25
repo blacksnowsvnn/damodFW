@@ -101,6 +101,21 @@ Hệ thống sử dụng **JWT (JSON Web Token)** để xác thực người dù
 - Backend nhận yêu cầu đăng xuất và đưa `jti` của token đó vào **Token Blacklist** trong cơ sở dữ liệu.
 - Mọi yêu cầu tiếp theo sử dụng token đã bị blacklist sẽ bị Backend từ chối (trả về lỗi 401), ngay cả khi token đó chưa hết hạn về mặt thời gian (`exp`).
 
+## Cơ chế đặc biệt và Khởi động lạnh (Cold Start)
+
+Hệ thống được thiết kế để có thể khởi động ngay cả khi chưa có cấu hình (`.env`) hoặc cơ sở dữ liệu chưa sẵn sàng.
+
+### 1. Khởi động lạnh (Cold Start)
+- Khi Docker Compose khởi chạy lần đầu, Backend sẽ sử dụng các giá trị mặc định để chạy ứng dụng cơ bản.
+- Frontend sử dụng `InstallGuard` để phát hiện trạng thái chưa cài đặt (thông qua API `/install/check`) và bắt buộc người dùng hoàn thành **Install Wizard**.
+
+### 2. Cấu hình động (Dynamic Configuration)
+- **Backend**: Sử dụng module `app/core/config.py` để nạp lại biến môi trường từ file `.env` mỗi khi có yêu cầu truy cập, giúp áp dụng thay đổi ngay lập tức mà không cần restart container.
+- **Nginx**: File `nginx/default.conf` được quản lý động bởi `nginx_manager.py`. Khi người dùng cấu hình domain trong Install Wizard, Nginx sẽ được cập nhật và reload tự động bên trong container.
+
+### 3. Reset Database trong Install
+- Để đảm bảo tính nhất quán, quá trình cài đặt sẽ thực hiện lệnh `drop_all` để xóa sạch các bảng cũ (nếu có) và `create_all` để khởi tạo lại toàn bộ schema từ mã nguồn.
+
 ## Mạng Docker (Docker Network)
 
 Tất cả các container được kết nối chung một mạng mặc định do Docker Compose tạo ra. Điều này cho phép Nginx gọi các service khác bằng tên của chúng (`frontend`, `backend`) thay vì địa chỉ IP.
