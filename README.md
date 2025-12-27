@@ -1,57 +1,37 @@
-# Dự án Damod (damodFW)
+# Tài liệu hướng dẫn Damod (damodFW)
 
-Dự án **Damod** là một framework ứng dụng full-stack hiện đại, được thiết kế để triển khai nhanh chóng và bảo mật cao. Hệ thống sử dụng kiến trúc container hóa với Docker, giúp việc quản lý và mở rộng trở nên dễ dàng.
+Chào mừng bạn đến với trung tâm tài liệu của dự án **Damod**. Tại đây, bạn sẽ tìm thấy mọi thông tin cần thiết để cài đặt, phát triển và vận hành hệ thống.
 
-## 🚀 Tính năng chính
+## 📌 Danh mục tài liệu chính
 
-- **Frontend**: Next.js 15 với Tailwind CSS và Shadcn/UI.
-- **Backend**: FastAPI (Python) hiệu năng cao, hỗ trợ JWT Auth.
-- **Cơ sở dữ liệu**: PostgreSQL với cơ chế tự động khởi tạo.
-- **Quản trị**: Tích hợp sẵn pgAdmin, tự động cấu hình server kết nối.
-- **Proxy**: Nginx làm Reverse Proxy, hỗ trợ SSL và quản lý domain linh hoạt.
-- **Bảo mật**: Tự động lọc thông tin nhạy cảm trong logs, mã hóa mật khẩu Bcrypt.
+### 1. [Hướng dẫn cài đặt & Chạy dự án](setup.md)
+Hướng dẫn chi tiết cách thiết lập môi trường Docker, cấu hình file hosts, khởi chạy hệ thống lần đầu và sử dụng **Install Wizard**. Bao gồm cả hướng dẫn quản lý thư viện (npm/pip) và chạy kiểm thử (Pytest).
 
-## 🛠️ Yêu cầu hệ thống
+### 2. [Kiến trúc hệ thống](architecture.md)
+Giải thích sơ đồ luồng dữ liệu, vai trò của các thành phần (Frontend, Backend, Nginx, PostgreSQL, pgAdmin) và các cơ chế đặc biệt như **Cold Start** hay **Dynamic Configuration**.
 
-- Docker & Docker Compose
-- Node.js (để phát triển frontend)
-- Python 3.10+ (để phát triển backend)
+### 3. [Tài liệu API Endpoints](api_endpoints.md)
+Danh sách chi tiết các API hiện có, yêu cầu về xác thực (JWT), cấu trúc request/response và hệ thống phân quyền (Rank).
 
-## 🏁 Bắt đầu nhanh
+### 4. [Cấu trúc Cơ sở dữ liệu](database.md)
+Mô tả chi tiết các bảng trong PostgreSQL, sử dụng SQLAlchemy ORM, cơ chế Migration với Alembic và tích hợp quản trị qua pgAdmin.
 
-1. **Clone repository**:
-   ```bash
-   git clone [url-cua-ban]
-   cd [ten-thu-muc]
-   ```
+### 5. [Cấu hình biến môi trường](environment.md)
+Giải thích ý nghĩa của từng biến trong file `.env`, cách quản lý tập trung với `pydantic-settings` và cơ chế nạp cấu hình động.
 
-2. **Cấu hình môi trường**:
-   ```bash
-   cp .env.example .env
-   # Chỉnh sửa các giá trị trong .env nếu cần
-   ```
+---
 
-3. **Khởi chạy bằng Docker**:
-   ```bash
-   docker-compose up -d --build
-   ```
+## 🛠 Tài liệu dành cho Nhà phát triển (Sắp có)
 
-4. **Cài đặt hệ thống**:
-   Truy cập `http://localhost/install` để cấu hình cơ sở dữ liệu và tài khoản quản trị lần đầu.
+*Các tài liệu dưới đây đang được cập nhật để hỗ trợ tốt nhất cho quá trình phát triển:*
 
-## 📚 Tài liệu hướng dẫn
+- **[Quy chuẩn phát triển (Development Guidelines)](development_guidelines.md)**: Quy tắc viết mã, cấu trúc thư mục, quy trình Git và các best practices.
+- **[Tài liệu Bảo mật (Security)](security.md)**: Các biện pháp bảo mật đã triển khai, hướng dẫn xử lý dữ liệu nhạy cảm và quy trình vá lỗi.
 
-Xem chi tiết tại **[Trung tâm tài liệu (docs/README.md)](docs/README.md)**.
+---
 
-Các tài liệu chính bao gồm:
-- [Hướng dẫn cài đặt](docs/setup.md)
-- [Kiến trúc hệ thống](docs/architecture.md)
-- [Tài liệu API](docs/api_endpoints.md)
-- [Cấu trúc Cơ sở dữ liệu](docs/database.md)
-- [Cấu hình biến môi trường](docs/environment.md)
-- [Quy chuẩn phát triển](docs/development_guidelines.md)
-- [Bảo mật](docs/security.md)
+## 🚀 Liên kết nhanh
 
-## 📄 Giấy phép
-
-Dự án được phát triển cho mục đích nội bộ.
+- **Trang chủ**: [http://yourdomain.com/](http://yourdomain.com/)
+- **API Swagger**: [http://yourdomain.com/backend/docs](http://yourdomain.com/backend/docs)
+- **Quản trị DB (pgAdmin)**: [http://localhost:5050](http://localhost:5050)

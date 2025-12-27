@@ -16,8 +16,8 @@ export default function InstallPage() {
   const [testingDb, setTestingDb] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState(1);
-  const [canSkipTest, setCanSkipTest] = useState(false);
-  
+
+
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState({
     // Database
@@ -95,9 +95,9 @@ export default function InstallPage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === 'checkbox' ? checked : value;
-    setFormData(prev => ({ 
-      ...prev, 
-      [name]: newValue 
+    setFormData(prev => ({
+      ...prev,
+      [name]: newValue
     }));
     if (type !== 'checkbox') {
       validateField(name, newValue);
@@ -247,7 +247,7 @@ export default function InstallPage() {
           <CardDescription className="text-base">
             Hoàn thành 2 bước đơn giản để bắt đầu sử dụng DamodFW
           </CardDescription>
-          
+
           <div className="mt-8 flex items-center justify-center space-x-4">
             <div className={`flex h-10 w-10 items-center justify-center rounded-full border-2 ${step >= 1 ? 'border-blue-600 bg-blue-50 text-blue-600' : 'border-gray-300 text-gray-400'}`}>
               <Database className="h-5 w-5" />
@@ -277,12 +277,12 @@ export default function InstallPage() {
 
                 <div className="space-y-2">
                   <Label htmlFor="app_name">Tên ứng dụng</Label>
-                  <Input 
-                    id="app_name" 
-                    name="app_name" 
-                    value={formData.app_name} 
-                    onChange={handleChange} 
-                    placeholder="Damod Project" 
+                  <Input
+                    id="app_name"
+                    name="app_name"
+                    value={formData.app_name}
+                    onChange={handleChange}
+                    placeholder="Damod Project"
                     className={errors.app_name ? 'border-red-500' : ''}
                   />
                   {errors.app_name && <p className="text-xs text-red-500">{errors.app_name}</p>}
@@ -294,13 +294,13 @@ export default function InstallPage() {
                     <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 py-2 text-gray-500 sm:text-sm">
                       http://
                     </span>
-                    <Input 
-                      id="domain" 
-                      name="domain" 
-                      className={`rounded-l-none ${errors.domain ? 'border-red-500' : ''}`} 
-                      value={formData.domain} 
-                      onChange={handleChange} 
-                      placeholder="localhost" 
+                    <Input
+                      id="domain"
+                      name="domain"
+                      className={`rounded-l-none ${errors.domain ? 'border-red-500' : ''}`}
+                      value={formData.domain}
+                      onChange={handleChange}
+                      placeholder="localhost"
                     />
                   </div>
                   {errors.domain && <p className="text-xs text-red-500">{errors.domain}</p>}
@@ -315,12 +315,12 @@ export default function InstallPage() {
                   <div className="grid grid-cols-1 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="db_name">Tên Database</Label>
-                      <Input 
-                        id="db_name" 
-                        name="db_name" 
-                        value={formData.db_name} 
-                        onChange={handleChange} 
-                        placeholder="app_db" 
+                      <Input
+                        id="db_name"
+                        name="db_name"
+                        value={formData.db_name}
+                        onChange={handleChange}
+                        placeholder="app_db"
                         className={errors.db_name ? 'border-red-500' : ''}
                       />
                       {errors.db_name && <p className="text-xs text-red-500">{errors.db_name}</p>}
@@ -328,25 +328,25 @@ export default function InstallPage() {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="db_user">User</Label>
-                        <Input 
-                          id="db_user" 
-                          name="db_user" 
-                          value={formData.db_user} 
-                          onChange={handleChange} 
-                          placeholder="app_user" 
+                        <Input
+                          id="db_user"
+                          name="db_user"
+                          value={formData.db_user}
+                          onChange={handleChange}
+                          placeholder="app_user"
                           className={errors.db_user ? 'border-red-500' : ''}
                         />
                         {errors.db_user && <p className="text-xs text-red-500">{errors.db_user}</p>}
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="db_password">Password</Label>
-                        <Input 
-                          id="db_password" 
-                          name="db_password" 
-                          type="password" 
-                          value={formData.db_password} 
-                          onChange={handleChange} 
-                          placeholder="••••••••" 
+                        <Input
+                          id="db_password"
+                          name="db_password"
+                          type="password"
+                          value={formData.db_password}
+                          onChange={handleChange}
+                          placeholder="••••••••"
                           className={errors.db_password ? 'border-red-500' : ''}
                         />
                         {errors.db_password && <p className="text-xs text-red-500">{errors.db_password}</p>}
@@ -355,11 +355,11 @@ export default function InstallPage() {
                   </div>
 
                   <div className="flex items-center space-x-2 py-4">
-                    <input 
-                      type="checkbox" 
-                      id="force_reset" 
-                      name="force_reset" 
-                      checked={formData.force_reset} 
+                    <input
+                      type="checkbox"
+                      id="force_reset"
+                      name="force_reset"
+                      checked={formData.force_reset}
                       onChange={handleChange}
                       className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-600"
                     />
@@ -368,10 +368,10 @@ export default function InstallPage() {
                     </Label>
                   </div>
 
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    className="w-full mt-2" 
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full mt-2"
                     onClick={testDbConnection}
                     disabled={testingDb}
                   >
@@ -390,13 +390,13 @@ export default function InstallPage() {
 
                 <div className="space-y-2">
                   <Label htmlFor="admin_full_name">Họ và tên</Label>
-                  <Input 
-                    id="admin_full_name" 
-                    name="admin_full_name" 
-                    value={formData.admin_full_name} 
-                    onChange={handleChange} 
-                    placeholder="Nguyễn Văn A" 
-                    required 
+                  <Input
+                    id="admin_full_name"
+                    name="admin_full_name"
+                    value={formData.admin_full_name}
+                    onChange={handleChange}
+                    placeholder="Nguyễn Văn A"
+                    required
                     className={errors.admin_full_name ? 'border-red-500' : ''}
                   />
                   {errors.admin_full_name && <p className="text-xs text-red-500">{errors.admin_full_name}</p>}
@@ -404,14 +404,14 @@ export default function InstallPage() {
 
                 <div className="space-y-2">
                   <Label htmlFor="admin_email">Email quản trị</Label>
-                  <Input 
-                    id="admin_email" 
-                    name="admin_email" 
-                    type="email" 
-                    value={formData.admin_email} 
-                    onChange={handleChange} 
-                    placeholder="admin@example.com" 
-                    required 
+                  <Input
+                    id="admin_email"
+                    name="admin_email"
+                    type="email"
+                    value={formData.admin_email}
+                    onChange={handleChange}
+                    placeholder="admin@example.com"
+                    required
                     className={errors.admin_email ? 'border-red-500' : ''}
                   />
                   {errors.admin_email && <p className="text-xs text-red-500">{errors.admin_email}</p>}
@@ -420,34 +420,34 @@ export default function InstallPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="admin_password">Mật khẩu</Label>
-                    <Input 
-                      id="admin_password" 
-                      name="admin_password" 
-                      type="password" 
-                      value={formData.admin_password} 
-                      onChange={handleChange} 
-                      placeholder="••••••••" 
-                      required 
+                    <Input
+                      id="admin_password"
+                      name="admin_password"
+                      type="password"
+                      value={formData.admin_password}
+                      onChange={handleChange}
+                      placeholder="••••••••"
+                      required
                       className={errors.admin_password ? 'border-red-500' : ''}
                     />
                     {errors.admin_password && <p className="text-xs text-red-500">{errors.admin_password}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="confirm_password">Xác nhận</Label>
-                    <Input 
-                      id="confirm_password" 
-                      name="confirm_password" 
-                      type="password" 
-                      value={formData.confirm_password} 
-                      onChange={handleChange} 
-                      placeholder="••••••••" 
-                      required 
+                    <Input
+                      id="confirm_password"
+                      name="confirm_password"
+                      type="password"
+                      value={formData.confirm_password}
+                      onChange={handleChange}
+                      placeholder="••••••••"
+                      required
                       className={errors.confirm_password ? 'border-red-500' : ''}
                     />
                     {errors.confirm_password && <p className="text-xs text-red-500">{errors.confirm_password}</p>}
                   </div>
                 </div>
-                
+
                 <p className="text-xs text-gray-500 italic mt-4">
                   * Thông tin này cũng sẽ được dùng để đăng nhập vào pgAdmin (Quản lý Database).
                 </p>
@@ -470,8 +470,8 @@ export default function InstallPage() {
               Tiếp theo
             </Button>
           ) : (
-            <Button 
-              onClick={handleSubmit} 
+            <Button
+              onClick={handleSubmit}
               className="bg-green-600 hover:bg-green-700"
               disabled={submitting}
             >

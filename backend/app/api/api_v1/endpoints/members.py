@@ -11,10 +11,10 @@ def read_members(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
-    current_user: Any = Depends(deps.check_admin),
+    current_user: Any = Depends(deps.check_rank(4)),
 ) -> Any:
     """
-    Danh sách thành viên (Chỉ dành cho Admin).
+    Danh sách thành viên (Dành cho Admin và Staff có Rank < 5).
     """
     members = crud.member.get_multi(db, skip=skip, limit=limit)
     return members

@@ -12,9 +12,11 @@ Người dùng (Browser)
       ▼
    Nginx (Cổng 80) ───┐
       │               │
-      ├─ / ──────────▶ Frontend (Next.js:3000)
-      │
-      └─ /backend/ ──▶ Backend (FastAPI:8000) ──▶ PostgreSQL (db:5432)
+      ├─ / ──────────▶ Frontend (Next.js:3000) ─┐
+      │                                          │
+      └─ /backend/ ──▶ Backend (FastAPI:8000) ──┼──▶ PostgreSQL (db:5432)
+                                                 │
+                                                 └──▶ Uploads (/app/uploads)
 
 Quản trị viên
       │
@@ -28,20 +30,25 @@ Quản trị viên
 - Chạy bên trong container `nextjs_app`.
 - Lắng nghe tại cổng `3000`.
 - **Công nghệ chính**:
-    - **Next.js 15+**: Framework React hỗ trợ Server Components.
-    - **Tailwind CSS v4**: Framework CSS utility-first mới nhất.
+    - **Next.js 16+**: Framework React hỗ trợ App Router và Server Components.
+    - **Tailwind CSS 4+**: Framework CSS utility-first mới nhất.
     - **shadcn/ui**: Bộ component UI được xây dựng trên Radix UI và Tailwind CSS.
+    - **TypeScript 5+**: Type-safe development.
 - **Cơ chế đặc biệt**:
     - **InstallGuard**: Một component bao bọc toàn bộ ứng dụng (`layout.tsx`) để kiểm tra trạng thái cài đặt hệ thống. Nếu chưa cài đặt, tự động chuyển hướng về `/install`.
-    - **API Helper**: Sử dụng `src/lib/api.ts` để xử lý các yêu cầu HTTP, tự động đính kèm Token JWT.
-- Giao tiếp với Backend thông qua URL được cấu hình trong biến môi trường (thường là `http://yourdomain.com/backend`).
+    - **DashboardGuard**: Component bảo vệ các route dashboard, chỉ cho phép user với `rank < 5` truy cập.
+    - **API Helper**: Sử dụng `src/lib/api.ts` để xử lý các yêu cầu HTTP, tự động đính kèm Token JWT và xử lý lỗi.
+    - **Dynamic Theme System**: Fetch settings từ backend server-side và inject CSS variables vào `<html>` tag để áp dụng theme động.
+- Giao tiếp với Backend thông qua Nginx reverse proxy tại `/api/v1`.
 
 ### 2. Backend (FastAPI)
 - Chạy bên trong container `fastapi_app`.
 - Lắng nghe tại cổng `8000`.
-- Sử dụng `root_path="/backend"` để đồng bộ với cấu hình reverse proxy của Nginx.
 - **Xác thực và Validation**: Sử dụng **Pydantic v2** để validate dữ liệu đầu vào và đầu ra cho 100% API endpoints.
 - **Quản lý cấu hình**: Sử dụng `pydantic-settings` để quản lý tập trung các biến môi trường từ file `.env` và hỗ trợ load động.
+- **CRUD Operations**: Sử dụng pattern CRUD với SQLAlchemy ORM cho tất cả database operations.
+- **Settings System**: Bảng `Setting` lưu trữ key-value pairs cho cấu hình hệ thống (SEO, Theme, Scripts).
+- **File Upload**: Hỗ trợ upload file vào `/app/uploads` và serve qua Nginx.
 - Kết nối với PostgreSQL qua `DATABASE_URL` (được tự động xây dựng từ các biến thành phần).
 
 ### 3. Database (PostgreSQL)
@@ -111,6 +118,39 @@ Hệ thống sử dụng **JWT (JSON Web Token)** để xác thực người dù
 - **Sanitized Logs**: Hệ thống tự động ẩn mật khẩu và các thông tin nhạy cảm khác trong nhật ký server (logs) thông qua các cơ chế lọc chuỗi và SQL sanitization.
 - **An toàn API**: Các thông báo lỗi chi tiết của hệ thống (như lỗi kết nối DB) được lọc bỏ trước khi trả về cho client, tránh lộ thông tin hạ tầng.
 
+## Hệ thống Theme động (Dynamic Theme System)
+
+Hệ thống hỗ trợ thay đổi theme (màu sắc, bo góc) động mà không cần reload trang.
+
+### 1. Server-Side Theme Injection
+- Backend lưu trữ theme settings trong bảng `Setting` (PostgreSQL).
+- Frontend fetch settings qua API `/settings/public` trong server component `layout.tsx`.
+- CSS variables được inject vào `<html>` tag với attribute `data-theme-base`.
+- Hỗ trợ 8 base themes: `neutral`, `red`, `blue`, `green`, `violet`, `orange`, `yellow`, `rose`.
+
+### 2. Client-Side Theme Update
+- Khi admin thay đổi theme trong Dashboard Settings:
+  - Settings được lưu vào database qua API `/settings/bulk`.
+  - JavaScript cập nhật CSS variables trực tiếp vào `document.documentElement`.
+  - Theme được áp dụng ngay lập tức không cần reload trang.
+- Các CSS variables được cập nhật:
+  - `--radius`: Độ bo góc (và tất cả biến phụ thuộc: `--radius-sm`, `--radius-md`, etc.)
+  - `--primary`: Màu chủ đạo (OKLCH color space)
+  - `data-theme-base` attribute: Kích hoạt base theme colors từ `globals.css`
+
+### 3. Theme Architecture
+```
+globals.css (Base themes)
+    ↓
+[data-theme-base="orange"] { --primary: oklch(...); }
+    ↓
+<html data-theme-base="orange">
+    ↓
+:root { --radius: 0.625rem; --primary: oklch(...); }
+    ↓
+Components sử dụng CSS variables
+```
+
 ## Cơ chế đặc biệt và Khởi động lạnh (Cold Start)
 
 Hệ thống được thiết kế để có thể khởi động ngay cả khi chưa có cấu hình (`.env`) hoặc cơ sở dữ liệu chưa sẵn sàng.
@@ -121,11 +161,45 @@ Hệ thống được thiết kế để có thể khởi động ngay cả khi 
 
 ### 2. Cấu hình động (Dynamic Configuration)
 - **Backend**: Sử dụng module `app/core/config.py` để nạp lại biến môi trường từ file `.env` mỗi khi có yêu cầu truy cập, giúp áp dụng thay đổi ngay lập tức mà không cần restart container.
+- **Frontend**: Layout server component fetch settings mỗi request với `cache: 'no-store'` để đảm bảo theme luôn mới nhất.
 - **Nginx**: File `nginx/default.conf` được quản lý động bởi `nginx_manager.py`. Khi người dùng cấu hình domain trong Install Wizard, Nginx sẽ được cập nhật và reload tự động bên trong container.
+- **Settings System**: Admin có thể thay đổi SEO, Theme, Custom Scripts qua Dashboard mà không cần restart services.
 
 ### 3. Reset Database trong Install
 - Để đảm bảo tính nhất quán, quá trình cài đặt sẽ thực hiện lệnh `drop_all` để xóa sạch các bảng cũ (nếu có) và `create_all` để khởi tạo lại toàn bộ schema từ mã nguồn.
 
+## Quản lý File và Uploads
+
+### 1. Upload Directory
+- Files được upload vào `/app/uploads` trong container backend.
+- Directory được mount vào container frontend tại `/app/public/uploads` để serve static files.
+- Nginx phục vụ files tại path `/uploads/*`.
+
+### 2. Supported File Types
+- Images: `jpg`, `jpeg`, `png`, `gif`, `svg`, `webp`
+- Icons: `ico` (cho favicon)
+- Được validate ở cả frontend và backend.
+
+### 3. File Access Flow
+```
+Admin upload file → Backend (/api/v1/upload)
+    ↓
+Lưu vào /app/uploads/filename.jpg
+    ↓
+Trả về URL: /uploads/filename.jpg
+    ↓
+Frontend/Nginx serve file công khai
+```
+
 ## Mạng Docker (Docker Network)
 
 Tất cả các container được kết nối chung một mạng mặc định do Docker Compose tạo ra. Điều này cho phép Nginx gọi các service khác bằng tên của chúng (`frontend`, `backend`) thay vì địa chỉ IP.
+
+### Service Communication:
+- **Frontend → Backend**: Gọi qua service name `backend:8000` (internal Docker network)
+- **Browser → Backend**: Gọi qua Nginx proxy `/api/v1/*`
+- **All services → Database**: Kết nối qua `db:5432`
+
+### Volume Sharing:
+- `postgres_data`: Persistent storage cho PostgreSQL
+- `./backend/uploads`: Shared giữa backend và frontend để serve uploaded files

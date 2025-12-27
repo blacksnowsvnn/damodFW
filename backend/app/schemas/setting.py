@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Dict
 from pydantic import BaseModel, Field, EmailStr, ConfigDict
 
 # Shared properties
@@ -23,6 +23,9 @@ class SettingInDBBase(SettingBase):
 # Additional properties to return via API
 class Setting(SettingInDBBase):
     pass
+
+class SettingBulkUpdate(BaseModel):
+    settings: Dict[str, str] # Dict of key: value
 
 class DatabaseConfig(BaseModel):
     db_user: str = Field(..., min_length=3, max_length=50, pattern=r"^[a-zA-Z0-9_]+$", description="Tên người dùng database")

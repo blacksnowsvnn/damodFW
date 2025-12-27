@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { LogOut, User, LogIn, UserPlus } from 'lucide-react';
 
 export default function Navbar() {
-  const [user, setUser] = useState<{ email: string } | null>(null);
+  const [user, setUser] = useState<{ email: string; rank: number } | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -68,6 +68,13 @@ export default function Navbar() {
                   <User className="h-4 w-4 mr-1" />
                   {user.email}
                 </div>
+                {user.rank < 5 && (
+                  <Link href="/dashboard">
+                    <Button variant="outline" className="text-blue-600 border-blue-100 hover:bg-blue-50">
+                      Dashboard
+                    </Button>
+                  </Link>
+                )}
                 <Button 
                   variant="ghost" 
                   onClick={handleLogout}
